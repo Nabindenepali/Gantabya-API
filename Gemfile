@@ -27,6 +27,9 @@ gem 'puma', '~> 3.7'
 #Api gem
 gem 'active_model_serializers'
 
+#User authentication gem devise
+gem 'devise', '~> 4.2'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
