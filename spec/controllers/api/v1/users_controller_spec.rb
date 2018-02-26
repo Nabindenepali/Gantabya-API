@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :controller do
 
-  before {request.headers['Accept'] = "application/vnd.marketplace.v1"}
-
   describe "GET #show" do
     context "when valid user id is passed" do
       let(:user) { create(:user) }
