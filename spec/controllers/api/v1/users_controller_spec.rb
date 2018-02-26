@@ -52,6 +52,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe "PUT/PATCH #update" do
     let(:user) { create(:user) }
+
     context "when the user exists and valid user parameters are passed" do
       before { put :update, params: { id: user.id, user: { email: 'newmail@example.com' } }, format: :json }
 
@@ -77,6 +78,16 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
 
       it { should respond_with 422 }
+    end
+  end
+
+  describe "DELETE #destroy" do
+    let(:user) { create(:user) }
+
+    context "when the user is deleted" do
+      before { delete :destroy, params: { id: user.id }, format: :json }
+
+      it { should respond_with 204 }
     end
   end
 end
