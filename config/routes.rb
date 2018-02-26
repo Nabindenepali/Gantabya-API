@@ -3,8 +3,9 @@ require 'api_constraints'
 GantabyaApi::Application.routes.draw do
   devise_for :users
   # Definition of Gantabya Rails Api
-  namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api'}, path: '/' do
+  namespace :api, defaults: { format: :json }, path: '/' do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+      resources :users, :only => [:show]
     end
   end
 end
