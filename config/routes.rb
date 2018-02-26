@@ -5,7 +5,7 @@ GantabyaApi::Application.routes.draw do
   # Definition of Gantabya Rails Api
   namespace :api, defaults: { format: :json }, path: '/' do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
-      resources :users, :only => [:show]
+      resources :users, :only => [:show, :create]
     end
   end
 end
