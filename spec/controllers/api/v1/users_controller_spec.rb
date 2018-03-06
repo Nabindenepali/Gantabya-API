@@ -51,7 +51,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     let(:user) { create(:user) }
 
     context "when the user exists and valid user parameters are passed" do
-      before { put :update, params: { id: user.id, user: { email: 'newmail@example.com' } }, format: :json }
+      before do
+        api_authorization_header user.auth_token
+        put :update, params: { id: user.id, user: { email: 'newmail@example.com' } }, format: :json
+      end
 
       it "renders the json representation of updated user" do
         user_response = json_response
@@ -62,7 +65,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     context "when the user exists but invalid email is passed" do
-      before { put :update, params: { id: user.id, user: { email: 'badmail.com' } }, format: :json }
+      before do
+        api_authorization_header user.auth_token
+        put :update, params: { id: user.id, user: { email: 'badmail.com' } }, format: :json
+      end
 
       it "renders an errors json" do
         user_response = json_response
@@ -82,7 +88,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     let(:user) { create(:user) }
 
     context "when the user is deleted" do
-      before { delete :destroy, params: { id: user.id }, format: :json }
+      before do
+        api_authorization_header user.auth_token
+        delete :destroy, params: { id: user.id }, format: :json
+      end
 
       it { should respond_with 204 }
     end
