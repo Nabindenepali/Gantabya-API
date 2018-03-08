@@ -47,6 +47,24 @@ RSpec.describe User, :type => :model do
       end
     end
   end
+
+  it { should have_many(:events) }
+
+  describe '#products association' do
+
+    before do
+      user.save
+      3.times { FactoryBot.create :event, user: user }
+    end
+
+    it 'destroys the associated events on self destruct' do
+      events = user.events
+      user.destroy
+      events.each do |event|
+        expect(Event.find(event.id)).to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
 end
 
 

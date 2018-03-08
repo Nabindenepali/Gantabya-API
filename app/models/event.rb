@@ -3,4 +3,6 @@ class Event < ApplicationRecord
   validates :name, length: {minimum: 5}, presence: true
   validates :description, length: {minimum: 10}, presence: true
   validates :organizer, length: {minimum: 5}, presence: true
+
+  belongs_to :user
 end

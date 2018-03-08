@@ -5,6 +5,6 @@ FactoryBot.define do
     organizer { Faker::Company.name }
     date { Faker::Date.backward(15) }
     image_link { Faker::Internet.url }
-    user_id 1
+    user
   end
 end

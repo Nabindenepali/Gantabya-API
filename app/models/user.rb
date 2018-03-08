@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   before_create :generate_authentication_token!
 
+  has_many :events, dependent: :destroy
+
   def generate_authentication_token!
     begin
       new_token = Devise.friendly_token
