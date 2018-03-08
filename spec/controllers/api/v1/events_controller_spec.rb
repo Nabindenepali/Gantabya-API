@@ -16,7 +16,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
   end
 
   describe 'GET #index' do
-    before(:each) do
+    before do
       4.times { FactoryBot.create :event }
       get :index
     end
@@ -46,10 +46,10 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     end
 
     context 'when is not created' do
-      let(:invalid_event_attributes) { {title: 'Smart TV', price: 'Twelve dollars'} }
-      before(:each) do
+      let(:invalid_event_attributes) { {name: 'Swimming Competition', description: 'National Level Swimming Competition'} }
+      before do
         api_authorization_header user.auth_token
-        post :create, params: { user_id: user.id, product: invalid_event_attributes }
+        post :create, params: { event: invalid_event_attributes }
       end
 
       it 'renders an errors json' do
@@ -59,7 +59,48 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       it 'renders the json errors on why the user could not be created' do
         event_response = json_response
-        expect(event_response[:errors][:description]).to include "can't be blank"
+        expect(event_response[:errors][:organizer]).to include "can't be blank"
+      end
+
+      it { should respond_with 422 }
+    end
+  end
+
+  describe 'PUT/PATCH #update' do
+    before do
+      event = FactoryBot.create :event, user: user
+      api_authorization_header user.auth_token
+    end
+
+    context 'when is successfully updated' do
+      before do
+        patch :update, params: { id: event.id,
+                                 event: { description: 'A random event'} }
+      end
+
+      it 'renders the json representation for the updated event' do
+        event_response = json_response
+        expect(event_response[:description]).to eql 'A random event'
+      end
+
+      it { should respond_with 200 }
+    end
+
+    context 'when is not updated' do
+      before do
+        patch :update, params: { id: event.id,
+                                 event: { description: 'event'} }
+      end
+
+      it 'renders an errors json' do
+        event_response = json_response
+        expect(event_response).to have_key(:errors)
+      end
+
+      it 'renders the json errors on why the event could not be updated' do
+        event_response = json_response
+        event_response[:errors][:description]
+        expect(event_response[:errors][:description]).to include 'is too short (minimum is 10 characters)'
       end
 
       it { should respond_with 422 }
