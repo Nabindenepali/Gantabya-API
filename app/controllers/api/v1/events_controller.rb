@@ -1,6 +1,6 @@
 class Api::V1::EventsController < ApplicationController
   respond_to :json
-  before_action :authenticate_with_token!, only: [:create, :update]
+  before_action :authenticate_with_token!, only: [:create, :update, :destroy]
 
   def index
     respond_with Event.all
@@ -26,6 +26,12 @@ class Api::V1::EventsController < ApplicationController
     else
       render json: { errors: event.errors }, status: 422
     end
+  end
+
+  def destroy
+    event = Event.find(params[:id])
+    event.destroy
+    head 204
   end
 
   private

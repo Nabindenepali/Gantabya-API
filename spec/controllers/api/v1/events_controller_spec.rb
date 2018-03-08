@@ -106,4 +106,14 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       it { should respond_with 422 }
     end
   end
+
+  describe 'DELETE #destroy' do
+    before do
+      event = FactoryBot.create :event, user: user
+      api_authorization_header user.auth_token
+      delete :destroy, params: { id: event.id }
+    end
+
+    it { should respond_with 204 }
+  end
 end
