@@ -20,7 +20,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def update
-    event = Event.find(params[:id])
+    event = current_user.events.find(params[:id])
     if event.update(event_params)
       render json: event, status: 200
     else
@@ -29,7 +29,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def destroy
-    event = Event.find(params[:id])
+    event = current_user.events.find(params[:id])
     event.destroy
     head 204
   end
