@@ -13,9 +13,9 @@ class Api::V1::EventsController < ApplicationController
   def create
     event = current_user.events.build(event_params)
     if event.save
-      render json: event, status: 201
+      render json: event.without_image, status: 201
     else
-      render json: {errors: event.errors}, status: 422
+      render json: { errors: event.errors }, status: 422
     end
   end
 
@@ -34,9 +34,20 @@ class Api::V1::EventsController < ApplicationController
     head 204
   end
 
+  def image
+    event = current_user.events.find(params[:id])
+    event.image = params[:image]
+    if event.save
+      render json: event, status: 201
+    else
+      render json: { errors: event.errors }, status: 422
+    end
+  end
+
   private
 
     def event_params
-      params.require(:event).permit(:name, :description, :organizer, :date, :image_link)
+      params.require(:event).permit(:name, :description, :organizer, :date)
     end
+
 end

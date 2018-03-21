@@ -24,11 +24,17 @@ gem 'puma', '~> 3.7'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
-#Api gem
+# Api gem
 gem 'active_model_serializers'
 
-#User authentication gem devise
+# User authentication gem devise
 gem 'devise', '~> 4.2'
+
+# Gem to handle file uploads for users
+gem 'carrierwave', '~> 0.11.2'
+
+# Gem to help in resizing of uploaded images
+gem 'mini_magick', '~> 4.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

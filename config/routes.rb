@@ -8,6 +8,7 @@ GantabyaApi::Application.routes.draw do
       resources :users, :only => [:show, :create, :update, :destroy]
       resources :sessions, :only => [:create, :destroy]
       resources :events, :only => [:index, :show, :create, :update, :destroy]
+      post '/events/:id/image', to: 'events#image', as: 'events_image'
     end
   end
 end

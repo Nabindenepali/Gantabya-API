@@ -21,3 +21,6 @@
 
 # Ignore all idea files.
 /.idea/*
+
+# Ignore uploads folder
+/public/uploads
